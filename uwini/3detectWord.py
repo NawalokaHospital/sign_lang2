@@ -251,6 +251,8 @@ def calculator_mode(cam):
 
 def text_mode(cam):
     global is_voice_on
+    is_write = False
+    write_word = ""
     text = ""
     word = ""
     count_same_frame = 0
@@ -267,7 +269,7 @@ def text_mode(cam):
                 else:
                     count_same_frame = 0
 
-                if count_same_frame > 20:
+                if count_same_frame > 8:
                     if len(text) == 1:
                         Thread(target=say_text, args=(text,)).start()
                     word = word + text
@@ -303,6 +305,16 @@ def text_mode(cam):
         cv2.putText(blackboard, "Predicted Letter Detected- " + value, (30, 100), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (255, 255, 0))
         # cv2.putText(blackboard, word, (30, 240), cv2.FONT_HERSHEY_TRIPLEX, 2, (255, 255, 255))
         cv2.putText(blackboard, "", (30, 240), cv2.FONT_HERSHEY_TRIPLEX, 2, (255, 255, 255))
+        print("Full proper Noun --" + word)
+        if(word != ""):
+            is_write = True
+            write_word = word
+        if((word == "") & is_write):
+            is_write = False
+            file = open("sign_letter.txt", "a", encoding="utf-8")
+            file.write(write_word + "\n")
+            file.close()
+            write_word = ""
         if is_voice_on:
             cv2.putText(blackboard, "", (450, 440), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 127, 0))
         else:
