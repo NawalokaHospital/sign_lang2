@@ -267,7 +267,7 @@ def text_mode(cam):
                 else:
                     count_same_frame = 0
 
-                if count_same_frame > 20:
+                if count_same_frame > 8:
                     if len(text) == 1:
                         Thread(target=say_text, args=(text,)).start()
                     word = word + text
@@ -292,7 +292,7 @@ def text_mode(cam):
             text = ""
             word = ""
         blackboard = np.zeros((480, 640, 3), dtype=np.uint8)
-        cv2.putText(blackboard, "Detect Proper Noun", (180, 50), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (255, 0, 0))
+        cv2.putText(blackboard, "Detect word", (180, 50), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (255, 0, 0))
         print(text)
         # cv2.putText(blackboard, "Predicted text- " + text, (30, 100), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 255, 0))
         value = "NO"
@@ -300,7 +300,7 @@ def text_mode(cam):
             value = "YES"
         else:
             value = value
-        cv2.putText(blackboard, "Predicted Letter Detected- " + value, (30, 100), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (255, 255, 0))
+        cv2.putText(blackboard, "Predicted word Detected- " + value, (30, 100), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (255, 255, 0))
         # cv2.putText(blackboard, word, (30, 240), cv2.FONT_HERSHEY_TRIPLEX, 2, (255, 255, 255))
         cv2.putText(blackboard, "", (30, 240), cv2.FONT_HERSHEY_TRIPLEX, 2, (255, 255, 255))
         if is_voice_on:
